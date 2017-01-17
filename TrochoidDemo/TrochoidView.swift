@@ -1,0 +1,106 @@
+//
+//  TrochoidView.swift
+//  TrochoidDemo
+//
+//  Created by Duncan Champney on 1/17/17.
+//  Copyright © 2017 Duncan Champney. All rights reserved.
+//
+
+import UIKit
+
+class TrochoidView: UIView {
+  
+  @IBInspectable public var radius: CGFloat = 50 {
+    didSet {
+      if radius != oldValue {
+        _trochoidCurve = nil
+        setNeedsDisplay()
+      }
+    }
+  }
+  @IBInspectable public var lambda: CGFloat = 0.8 {
+    didSet {
+      if lambda != oldValue {
+        _trochoidCurve = nil
+        setNeedsDisplay()
+      }
+    }
+  }
+
+  
+  private var lineLength: CGFloat = 0
+  
+  private var  maxTheta:CGFloat = 0
+  
+  private var _trochoidCurve: UIBezierPath!
+  
+  var smooth: Bool = true
+  var trochoidCurve: UIBezierPath {
+    lineLength = radius * lambda
+    if  _trochoidCurve == nil {
+      var points: [CGPoint] = []
+      let width = self.bounds.size.width
+      let   waveCount =   width / (radius * 4)
+      maxTheta = CGFloat.pi * 2 * waveCount
+
+      var firstPoint: Bool = true
+      _trochoidCurve = UIBezierPath()
+      var steps: Int = 0
+      
+      let baseY = self.bounds.size.height / 2
+      //let pointsPer2Pi = width / (CGFloat.pi * 2)
+      var xOffset: CGFloat = 0
+      for theta in stride(from: 0,
+                          to: maxTheta,
+                          by: maxTheta / (width/4) ) {
+                            steps += 1
+                            //print("theta = \(theta)")
+                            let xOut = radius * theta + lineLength * cos(theta)
+                            if firstPoint {
+                              firstPoint = false
+                              xOffset = -xOut
+                            }
+                            let y = radius * sin(theta)
+                            //print("y = \(y)")
+                            let yOut = baseY - y
+                            let point = CGPoint(x: xOut + xOffset, y: yOut)
+                            points.append(point)
+                            
+      }
+      var smoothedPoints: [CGPoint]
+      if smooth {
+        (smoothedPoints, _) = smoothPointsInArray(points, granularity: 6)
+      }
+      else {
+        smoothedPoints = points
+      }
+      for (index, aPoint) in smoothedPoints.enumerated() {
+        if index == 0 {
+          _trochoidCurve.move(to: aPoint)
+        }
+        else {
+          _trochoidCurve.addLine(to: aPoint)
+        }
+      }
+
+      //print("Loop in \(steps) steps")
+    }
+    return _trochoidCurve
+  }
+    override func draw(_ rect: CGRect) {
+      let baseY = self.bounds.size.height / 2
+
+      //--------------------------
+      //Draw the origin line
+      let context = UIGraphicsGetCurrentContext()
+      context?.saveGState()
+      UIColor.blue.set()
+      let blue:[CGFloat] = [0, 0, 1, 1]
+      context?.setStrokeColor(blue);
+      context?.setLineWidth(1.0)
+      context?.strokeLineSegments(between: [CGPoint(x:0, y: baseY), CGPoint(x:self.bounds.size.width, y: baseY)])
+      context?.restoreGState()
+      //--------------------------
+      trochoidCurve.stroke()
+    }
+}

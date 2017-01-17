@@ -12,6 +12,9 @@
 		AE55999A1E2E8201001ACB43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE5599981E2E8201001ACB43 /* Main.storyboard */; };
 		AE55999C1E2E8201001ACB43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE55999B1E2E8201001ACB43 /* Assets.xcassets */; };
 		AE55999F1E2E8201001ACB43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE55999D1E2E8201001ACB43 /* LaunchScreen.storyboard */; };
+		AE5599A71E2E821F001ACB43 /* TrochoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5599A61E2E821F001ACB43 /* TrochoidView.swift */; };
+		AE5599A91E2E840B001ACB43 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5599A81E2E840B001ACB43 /* UIViewExtensions.swift */; };
+		AE5599AB1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5599AA1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		AE55999B1E2E8201001ACB43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AE55999E1E2E8201001ACB43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE5599A01E2E8201001ACB43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE5599A61E2E821F001ACB43 /* TrochoidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrochoidView.swift; sourceTree = "<group>"; };
+		AE5599A81E2E840B001ACB43 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		AE5599AA1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmoothCGPointsArray.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,12 +60,15 @@
 		AE5599931E2E8201001ACB43 /* TrochoidDemo */ = {
 			isa = PBXGroup;
 			children = (
+				AE5599AA1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift */,
+				AE5599A81E2E840B001ACB43 /* UIViewExtensions.swift */,
 				AE5599941E2E8201001ACB43 /* AppDelegate.swift */,
 				AE5599961E2E8201001ACB43 /* ViewController.swift */,
 				AE5599981E2E8201001ACB43 /* Main.storyboard */,
 				AE55999B1E2E8201001ACB43 /* Assets.xcassets */,
 				AE55999D1E2E8201001ACB43 /* LaunchScreen.storyboard */,
 				AE5599A01E2E8201001ACB43 /* Info.plist */,
+				AE5599A61E2E821F001ACB43 /* TrochoidView.swift */,
 			);
 			path = TrochoidDemo;
 			sourceTree = "<group>";
@@ -138,6 +147,9 @@
 			files = (
 				AE5599971E2E8201001ACB43 /* ViewController.swift in Sources */,
 				AE5599951E2E8201001ACB43 /* AppDelegate.swift in Sources */,
+				AE5599A91E2E840B001ACB43 /* UIViewExtensions.swift in Sources */,
+				AE5599AB1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift in Sources */,
+				AE5599A71E2E821F001ACB43 /* TrochoidView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
