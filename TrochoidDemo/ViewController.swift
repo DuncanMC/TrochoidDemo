@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
+  @IBOutlet weak var controlsView: UIView!
+  @IBOutlet weak var controlsViewConstraint: NSLayoutConstraint!
   @IBOutlet weak var radiusSlider: UISlider!
   @IBOutlet weak var radiusField: UITextField!
   
@@ -17,6 +19,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
   @IBOutlet weak var lambdaField: UITextField!
   
   @IBOutlet weak var theTrochoidView: TrochoidView!
+  
+  var showKeyboardHandler: Any?
+  var hideKeyboardHandler: Any?
+  
+  var keyboardHeight: CGFloat = 0
+  var animationDuration: TimeInterval = 0
   
   var radiusValue: CGFloat = 0 {
     didSet {
@@ -37,7 +45,52 @@ class ViewController: UIViewController, UITextFieldDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+    hideKeyboardHandler = NotificationCenter.default.addObserver(
+      forName: NSNotification.Name.UIKeyboardWillHide,
+      object: nil,
+      queue: nil) {
+        notification in
+        UIView.animate(withDuration: self.animationDuration) {
+          self.controlsViewConstraint.constant -= self.keyboardHeight
+          self.view.layoutIfNeeded()
+        }
+    }
+
+    showKeyboardHandler = NotificationCenter.default.addObserver(
+      forName: NSNotification.Name.UIKeyboardWillShow,
+      object: nil,
+      queue: nil) {
+    notification in
+        // Get information about the animation.
+        guard let userInfo = notification.userInfo else {
+          return
+        }
+
+         self.animationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        
+        guard let rawAnimationCurveValue = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? UInt else {
+          return
+        }
+        
+        
+        //let animationCurve = UIViewAnimationOptions(rawValue: rawAnimationCurveValue)
+        
+        // Convert the keyboard frame from screen to view coordinates.
+        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        
+        let keyboardViewBeginFrame = self.view.convert(keyboardScreenBeginFrame, from: self.view.window)
+        let keyboardViewEndFrame = self.view.convert(keyboardScreenEndFrame,
+                                                     from: self.view.window)
+        
+        // Determine how far the keyboard has moved up or down.
+        self.keyboardHeight = keyboardViewBeginFrame.origin.y - keyboardViewEndFrame.origin.y
+        UIView.animate(withDuration: self.animationDuration) {
+          self.controlsViewConstraint.constant += self.keyboardHeight
+          self.view.layoutIfNeeded()
+        }
+
+    }
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -57,9 +110,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
     lambdaValue = CGFloat(lambdaSlider.value)
   }
 
+  @IBAction func handleLambdaDoubleTap(_ sender: UITapGestureRecognizer) {
+    lambdaValue = 1.0
+  }
 }
 
 extension ViewController {
+  func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    return true
+  }
+
+  func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    return true
+  }
+
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     textField.resignFirstResponder()
     

@@ -33,79 +33,93 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="5" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="3O5-0a-jGA">
-                                <rect key="frame" x="90" y="582" width="207" height="31"/>
-                                <connections>
-                                    <action selector="handleRadiusSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="9T8-QT-18y"/>
-                                </connections>
-                            </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="z3L-Bz-cM0">
-                                <rect key="frame" x="90" y="622" width="207" height="31"/>
-                                <connections>
-                                    <action selector="handleLambdaSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="7yK-pL-lMa"/>
-                                </connections>
-                            </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radius" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ft8-Fp-KQj">
-                                <rect key="frame" x="20" y="587" width="52" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lambda" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aqy-5t-mC5">
-                                <rect key="frame" x="20" y="626" width="62" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7OD-qi-rc1">
-                                <rect key="frame" x="300" y="582" width="70" height="30"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zbQ-2d-12r">
+                                <rect key="frame" x="-1" y="567" width="375" height="100"/>
+                                <subviews>
+                                    <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="5" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="3O5-0a-jGA">
+                                        <rect key="frame" x="90" y="20" width="207" height="31"/>
+                                        <connections>
+                                            <action selector="handleRadiusSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="9T8-QT-18y"/>
+                                        </connections>
+                                    </slider>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t5o-fq-NMd">
+                                        <rect key="frame" x="300" y="60" width="70" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="xH0-yj-Cqc"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7OD-qi-rc1">
+                                        <rect key="frame" x="300" y="20" width="70" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="oeW-28-ieG"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="Rud-Gh-Wm8"/>
+                                        </connections>
+                                    </textField>
+                                    <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="z3L-Bz-cM0">
+                                        <rect key="frame" x="90" y="60" width="207" height="31"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <action selector="handleLambdaSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="7yK-pL-lMa"/>
+                                            <outletCollection property="gestureRecognizers" destination="DQJ-Ys-drm" appends="YES" id="RIY-ws-0cp"/>
+                                        </connections>
+                                    </slider>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radius" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ft8-Fp-KQj">
+                                        <rect key="frame" x="20" y="25" width="52" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lambda" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aqy-5t-mC5">
+                                        <rect key="frame" x="20" y="64" width="62" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="oeW-28-ieG"/>
+                                    <constraint firstItem="z3L-Bz-cM0" firstAttribute="top" secondItem="3O5-0a-jGA" secondAttribute="bottom" constant="10" id="14P-Ax-78a"/>
+                                    <constraint firstItem="7OD-qi-rc1" firstAttribute="leading" secondItem="3O5-0a-jGA" secondAttribute="trailing" constant="5" id="3z3-E0-MSz"/>
+                                    <constraint firstItem="7OD-qi-rc1" firstAttribute="top" secondItem="3O5-0a-jGA" secondAttribute="top" id="5Kp-yz-g5m"/>
+                                    <constraint firstItem="z3L-Bz-cM0" firstAttribute="centerY" secondItem="aqy-5t-mC5" secondAttribute="centerY" id="5sk-Lk-kVs"/>
+                                    <constraint firstItem="z3L-Bz-cM0" firstAttribute="trailing" secondItem="3O5-0a-jGA" secondAttribute="trailing" id="6Mq-zR-LzR"/>
+                                    <constraint firstAttribute="bottom" secondItem="z3L-Bz-cM0" secondAttribute="bottom" constant="10" id="6zm-ga-MLw"/>
+                                    <constraint firstItem="7OD-qi-rc1" firstAttribute="bottom" secondItem="3O5-0a-jGA" secondAttribute="bottom" id="7nz-5u-v3W"/>
+                                    <constraint firstItem="t5o-fq-NMd" firstAttribute="trailing" secondItem="7OD-qi-rc1" secondAttribute="trailing" id="9GF-X3-yVz"/>
+                                    <constraint firstItem="t5o-fq-NMd" firstAttribute="centerY" secondItem="z3L-Bz-cM0" secondAttribute="centerY" id="IuW-YJ-fI1"/>
+                                    <constraint firstItem="aqy-5t-mC5" firstAttribute="leading" secondItem="Ft8-Fp-KQj" secondAttribute="leading" id="Owi-bD-nz8"/>
+                                    <constraint firstItem="aqy-5t-mC5" firstAttribute="leading" secondItem="zbQ-2d-12r" secondAttribute="leading" constant="20" id="S8t-7T-Z7T"/>
+                                    <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="aqy-5t-mC5" secondAttribute="trailing" constant="10" id="TvG-EC-6B1"/>
+                                    <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="aqy-5t-mC5" secondAttribute="trailing" constant="10" id="Ycl-y8-4ZA"/>
+                                    <constraint firstItem="3O5-0a-jGA" firstAttribute="centerY" secondItem="Ft8-Fp-KQj" secondAttribute="centerY" id="ado-Dp-OV6"/>
+                                    <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="3O5-0a-jGA" secondAttribute="leading" id="mo3-iV-FcI"/>
+                                    <constraint firstAttribute="trailing" secondItem="7OD-qi-rc1" secondAttribute="trailing" constant="20" id="nAR-Dg-1fQ"/>
+                                    <constraint firstItem="t5o-fq-NMd" firstAttribute="leading" secondItem="7OD-qi-rc1" secondAttribute="leading" id="sqW-p6-dFf"/>
                                 </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Rud-Gh-Wm8"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t5o-fq-NMd">
-                                <rect key="frame" x="300" y="622" width="70" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="xH0-yj-Cqc"/>
-                                </connections>
-                            </textField>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="z3L-Bz-cM0" firstAttribute="top" secondItem="3O5-0a-jGA" secondAttribute="bottom" constant="10" id="0kR-uc-9iw"/>
-                            <constraint firstItem="7OD-qi-rc1" firstAttribute="top" secondItem="3O5-0a-jGA" secondAttribute="top" id="525-ak-sKF"/>
-                            <constraint firstItem="7OD-qi-rc1" firstAttribute="leading" secondItem="3O5-0a-jGA" secondAttribute="trailing" constant="5" id="9JY-AO-vcy"/>
-                            <constraint firstItem="7OD-qi-rc1" firstAttribute="bottom" secondItem="3O5-0a-jGA" secondAttribute="bottom" id="Bkr-fN-b9F"/>
-                            <constraint firstItem="t5o-fq-NMd" firstAttribute="trailing" secondItem="7OD-qi-rc1" secondAttribute="trailing" id="E2h-wj-AvR"/>
-                            <constraint firstItem="aqy-5t-mC5" firstAttribute="leading" secondItem="Ft8-Fp-KQj" secondAttribute="leading" id="NYV-cr-KQg"/>
+                            <constraint firstAttribute="trailing" secondItem="zbQ-2d-12r" secondAttribute="trailing" id="1uj-yY-2WJ"/>
+                            <constraint firstAttribute="bottom" secondItem="zbQ-2d-12r" secondAttribute="bottom" id="8Ua-8z-uAq"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="BDE-l5-rIg" secondAttribute="bottom" constant="100" id="R6i-Pv-Ey6"/>
                             <constraint firstAttribute="trailing" secondItem="BDE-l5-rIg" secondAttribute="trailing" constant="10" id="Rbi-L2-alH"/>
-                            <constraint firstItem="3O5-0a-jGA" firstAttribute="centerY" secondItem="Ft8-Fp-KQj" secondAttribute="centerY" id="S84-Ld-NQR"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aqy-5t-mC5" secondAttribute="bottom" constant="20" id="XTw-wd-hJ9"/>
-                            <constraint firstItem="t5o-fq-NMd" firstAttribute="leading" secondItem="7OD-qi-rc1" secondAttribute="leading" id="agr-eF-pOM"/>
-                            <constraint firstItem="t5o-fq-NMd" firstAttribute="centerY" secondItem="z3L-Bz-cM0" secondAttribute="centerY" id="fht-z8-rBQ"/>
-                            <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="3O5-0a-jGA" secondAttribute="leading" id="goD-Y2-Nsm"/>
-                            <constraint firstItem="z3L-Bz-cM0" firstAttribute="centerY" secondItem="aqy-5t-mC5" secondAttribute="centerY" id="gsb-BG-o9U"/>
-                            <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="aqy-5t-mC5" secondAttribute="trailing" constant="10" id="iui-Af-n6c"/>
+                            <constraint firstItem="zbQ-2d-12r" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iRP-rd-bVW"/>
                             <constraint firstItem="BDE-l5-rIg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="mGi-WH-fIz"/>
                             <constraint firstItem="BDE-l5-rIg" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ppE-9H-ai0"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aqy-5t-mC5" secondAttribute="bottom" constant="20" id="qi8-kp-nHt"/>
-                            <constraint firstItem="aqy-5t-mC5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="qmd-Sh-spn"/>
-                            <constraint firstAttribute="trailing" secondItem="7OD-qi-rc1" secondAttribute="trailing" constant="5" id="qsP-uW-s2S"/>
-                            <constraint firstItem="z3L-Bz-cM0" firstAttribute="trailing" secondItem="3O5-0a-jGA" secondAttribute="trailing" id="rJy-nW-84A"/>
-                            <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="aqy-5t-mC5" secondAttribute="trailing" constant="10" id="s3b-oY-eHr"/>
+                            <constraint firstItem="zbQ-2d-12r" firstAttribute="top" secondItem="BDE-l5-rIg" secondAttribute="bottom" id="qav-DO-qD3"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="controlsView" destination="zbQ-2d-12r" id="wsv-1r-acF"/>
+                        <outlet property="controlsViewConstraint" destination="8Ua-8z-uAq" id="vDC-6o-Z50"/>
                         <outlet property="lambdaField" destination="t5o-fq-NMd" id="8be-hb-7fh"/>
                         <outlet property="lambdaSlider" destination="z3L-Bz-cM0" id="Dog-GM-SbM"/>
                         <outlet property="radiusField" destination="7OD-qi-rc1" id="lAp-k4-jmE"/>
@@ -114,6 +128,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="DQJ-Ys-drm">
+                    <connections>
+                        <action selector="handleLambdaDoubleTap:" destination="BYZ-38-t0r" id="Suw-eY-xC0"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="117.59999999999999" y="123.68815592203899"/>
         </scene>
