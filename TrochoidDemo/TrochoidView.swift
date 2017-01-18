@@ -10,7 +10,7 @@ import UIKit
 
 class TrochoidView: UIView {
   
-  var fillColor: UIColor?
+  @IBInspectable public var fillColor: UIColor?
   
   var drawAxis: Bool = false  {
     didSet {
@@ -59,7 +59,6 @@ class TrochoidView: UIView {
       let   waveCount =   width / (radius * 4)
       maxTheta = CGFloat.pi * 2 * waveCount
       
-      var firstPoint: Bool = true
       _trochoidCurve = UIBezierPath()
       var steps: Int = 0
       
@@ -69,11 +68,7 @@ class TrochoidView: UIView {
                           to: maxTheta,
                           by: maxTheta / (width/4) ) {
                             steps += 1
-                            //print("theta = \(theta)")
                             let xOut = radius * (theta) + lineLength * cos(theta + rotation) - lineLength
-                            if firstPoint {
-                              firstPoint = false
-                            }
                             let y = radius * sin(theta + rotation)
                             //print("y = \(y)")
                             let yOut = baseY - y
@@ -89,14 +84,28 @@ class TrochoidView: UIView {
       else {
         smoothedPoints = points
       }
-      for (index, aPoint) in smoothedPoints.enumerated() {
-        if index == 0 {
+      var firstPoint: Bool = false
+      if fillColor == nil {
+        firstPoint = true
+      }
+      else {
+        _trochoidCurve.move(to: CGPoint(x: -1, y: bounds.height+1))
+      }
+      for aPoint in smoothedPoints {
+        if firstPoint {
           _trochoidCurve.move(to: aPoint)
+          firstPoint = false
         }
         else {
           _trochoidCurve.addLine(to: aPoint)
         }
       }
+      if fillColor != nil {
+        _trochoidCurve.addLine(to: CGPoint(x: bounds.width+1, y: bounds.height+1))
+        _trochoidCurve.addLine(to: CGPoint(x: -1, y: bounds.height+1))
+        _trochoidCurve.close()
+      }
+
       
       //print("Loop in \(steps) steps")
     }
@@ -126,8 +135,9 @@ class TrochoidView: UIView {
     }
     //--------------------------
     trochoidCurve.stroke()
-    if fillColor != nil {
-      
+    if let fillColor = fillColor {
+      fillColor.set()
+      trochoidCurve.fill()
     }
   }
 }
