@@ -12,7 +12,7 @@ class TrochoidView: UIView {
   
   @IBInspectable public var fillColor: UIColor?
   
-  var drawAxis: Bool = false  {
+  var drawAxis: Bool = true  {
     didSet {
       forceUpdate()
     }
@@ -69,7 +69,7 @@ class TrochoidView: UIView {
                           by: maxTheta / (width/4) ) {
                             steps += 1
                             let xOut = radius * (theta) + lineLength * cos(theta + rotation) - lineLength
-                            let y = radius * sin(theta + rotation)
+                            let y = lineLength * sin(theta + rotation)
                             //print("y = \(y)")
                             let yOut = baseY - y
                             let point = CGPoint(x: xOut, y: yOut)
@@ -122,22 +122,42 @@ class TrochoidView: UIView {
     let baseY = self.bounds.size.height / 2
     
     //--------------------------
-    if drawAxis {
+    let context = UIGraphicsGetCurrentContext()
+    if drawAxis && false{
       //Draw the origin line
-      let context = UIGraphicsGetCurrentContext()
-      context?.saveGState()
+      //context?.saveGState()
       UIColor.blue.set()
       let blue:[CGFloat] = [0, 0, 1, 1]
       context?.setStrokeColor(blue);
       context?.setLineWidth(1.0)
       context?.strokeLineSegments(between: [CGPoint(x:0, y: baseY), CGPoint(x:self.bounds.size.width, y: baseY)])
-      context?.restoreGState()
+      //context?.restoreGState()
+      
     }
     //--------------------------
     trochoidCurve.stroke()
     if let fillColor = fillColor {
       fillColor.set()
       trochoidCurve.fill()
+    }
+    if drawAxis {
+      context?.setLineWidth(2.0)
+
+      var center = CGPoint(x: 0, y: baseY)
+      var rect = CGRect(origin: center, size: CGSize(width: 0, height: 0))
+      rect = rect.insetBy(dx: -lineLength, dy: -lineLength)
+      let orange:[CGFloat] = [1, 0.5, 0, 1]
+      context?.setStrokeColor(orange);
+      context?.strokeEllipse(in: rect)
+      center.x += cos(CGFloat.pi * 2 - rotation - CGFloat.pi / 3.06*lambda) * lineLength
+      center.y += sin(CGFloat.pi * 2 - rotation - CGFloat.pi / 3.06*lambda) * lineLength
+      rect = CGRect(origin: center, size: CGSize(width: 0, height: 0))
+      rect = rect.insetBy(dx: -3, dy: -3)
+      let darkBlue:[CGFloat] = [53/255.0, 87/255.0, 147/255.0, 1]
+      context?.setFillColor(darkBlue);
+      context?.fillEllipse(in: rect)
+
+      
     }
   }
 }
