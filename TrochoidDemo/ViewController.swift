@@ -8,8 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController {
 
+  
+  //MARK: - IBOutlets
+  
   @IBOutlet weak var controlsView: UIView!
   @IBOutlet weak var controlsViewConstraint: NSLayoutConstraint!
   @IBOutlet weak var radiusSlider: UISlider!
@@ -20,6 +23,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
   
   @IBOutlet weak var theTrochoidView: TrochoidView!
   
+  //MARK: - Instance vars
+
   var showKeyboardHandler: Any?
   var hideKeyboardHandler: Any?
   
@@ -43,8 +48,30 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
   }
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  private var rotationStartTime: TimeInterval = 0
+  private var rotation: CGFloat = 0
+
+  private var timer: Timer?
+
+  //MARK: - custom instance methods
+  
+  func startRotationTimer(_ start: Bool) {
+    if !start {
+      timer?.invalidate()
+      //theTrochoidView.rotation = 0
+    }
+    else {
+      rotationStartTime = Date().timeIntervalSinceReferenceDate
+      timer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) {
+        timer in
+        let elapsed = Float(Date().timeIntervalSinceReferenceDate - self.rotationStartTime)
+        let  rotation = Float(Float.pi * 2.0 - fmodf(elapsed * Float.pi, Float.pi * 2.0))
+        self.theTrochoidView.rotation = CGFloat(rotation)
+      }
+    }
+  }
+  
+  func setupKeyboardNoticeHandlers() {
     hideKeyboardHandler = NotificationCenter.default.addObserver(
       forName: NSNotification.Name.UIKeyboardWillHide,
       object: nil,
@@ -55,25 +82,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
           self.view.layoutIfNeeded()
         }
     }
-
+    
     showKeyboardHandler = NotificationCenter.default.addObserver(
       forName: NSNotification.Name.UIKeyboardWillShow,
       object: nil,
       queue: nil) {
-    notification in
+        notification in
         // Get information about the animation.
         guard let userInfo = notification.userInfo else {
           return
         }
-
-         self.animationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         
-//        guard let rawAnimationCurveValue = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? UInt else {
-//          return
-//        }
-        
-        
-        //let animationCurve = UIViewAnimationOptions(rawValue: rawAnimationCurveValue)
+        self.animationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         
         // Convert the keyboard frame from screen to view coordinates.
         let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
@@ -89,17 +109,30 @@ class ViewController: UIViewController, UITextFieldDelegate {
           self.controlsViewConstraint.constant += self.keyboardHeight
           self.view.layoutIfNeeded()
         }
-
     }
   }
 
+  //MARK: - overridden UIViewController methods
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setupKeyboardNoticeHandlers()
+  }
+
   override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     radiusValue = theTrochoidView.radius
     lambdaValue = theTrochoidView.lambda
+    startRotationTimer(true)
   }
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+  }
+  //MARK: - IBActions
+  
+  @IBAction func handleAnimateSwitch(_ sender: UISwitch) {
+    startRotationTimer(sender.isOn)
   }
 
   @IBAction func handleRadiusSlider(_ sender: UISlider) {
@@ -120,8 +153,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
   }
 }
 
+//MARK: - ViewController UITextFieldDelegate extension
 
-extension ViewController {
+extension ViewController: UITextFieldDelegate {
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
     DispatchQueue.main.async {
       let allText = textField.textRange(
