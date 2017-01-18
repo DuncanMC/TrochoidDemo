@@ -105,6 +105,7 @@
 				TargetAttributes = {
 					AE5599901E2E8201001ACB43 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = VBNQV8KG4G;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -272,6 +273,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = VBNQV8KG4G;
 				INFOPLIST_FILE = TrochoidDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wareto.TrochoidDemo;
@@ -284,6 +286,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = VBNQV8KG4G;
 				INFOPLIST_FILE = TrochoidDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wareto.TrochoidDemo;
@@ -311,6 +314,7 @@
 				AE5599A51E2E8201001ACB43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

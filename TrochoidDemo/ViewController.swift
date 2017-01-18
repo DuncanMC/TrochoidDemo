@@ -68,9 +68,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
          self.animationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         
-        guard let rawAnimationCurveValue = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? UInt else {
-          return
-        }
+//        guard let rawAnimationCurveValue = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? UInt else {
+//          return
+//        }
         
         
         //let animationCurve = UIViewAnimationOptions(rawValue: rawAnimationCurveValue)
@@ -113,10 +113,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
   @IBAction func handleLambdaDoubleTap(_ sender: UITapGestureRecognizer) {
     lambdaValue = 1.0
   }
+  
+  override func viewWillTransition(to size: CGSize,
+                                with: UIViewControllerTransitionCoordinator) {
+    theTrochoidView.forceUpdate()
+  }
 }
+
 
 extension ViewController {
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    DispatchQueue.main.async {
+      let allText = textField.textRange(
+        from: textField.beginningOfDocument,
+        to: textField.endOfDocument)
+      
+      textField.selectedTextRange = allText
+    }
     return true
   }
 
@@ -130,20 +143,18 @@ extension ViewController {
     switch textField {
     case radiusField:
       if let string = radiusField.text,
-        let value = Float(string) {
-        if value >= radiusSlider.minimumValue && value <= radiusSlider.maximumValue {
-          radiusValue = CGFloat(value)
-        }
+        let value = Float(string),
+        value >= radiusSlider.minimumValue && value <= radiusSlider.maximumValue {
+        radiusValue = CGFloat(value)
       }
       else {
         radiusField.text = String(format: "%.3f", radiusValue)
       }
     case lambdaField:
       if let string = lambdaField.text,
-        let value = Float(string) {
-        if value >= lambdaSlider.minimumValue && value <= lambdaSlider.maximumValue {
-          lambdaValue = CGFloat(value)
-        }
+        let value = Float(string),
+        value >= lambdaSlider.minimumValue && value <= lambdaSlider.maximumValue {
+        lambdaValue = CGFloat(value)
       }
       else {
         lambdaField.text = String(format: "%.3f", lambdaValue)

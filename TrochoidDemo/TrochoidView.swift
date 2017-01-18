@@ -10,23 +10,22 @@ import UIKit
 
 class TrochoidView: UIView {
   
-  @IBInspectable public var radius: CGFloat = 50 {
+  
+  @IBInspectable public var radius: CGFloat = 30 {
     didSet {
       if radius != oldValue {
-        _trochoidCurve = nil
-        setNeedsDisplay()
+        forceUpdate()
       }
     }
   }
   @IBInspectable public var lambda: CGFloat = 0.8 {
     didSet {
       if lambda != oldValue {
-        _trochoidCurve = nil
-        setNeedsDisplay()
+        forceUpdate()
       }
     }
   }
-
+  
   
   private var lineLength: CGFloat = 0
   
@@ -35,6 +34,7 @@ class TrochoidView: UIView {
   private var _trochoidCurve: UIBezierPath!
   
   var smooth: Bool = true
+  
   var trochoidCurve: UIBezierPath {
     lineLength = radius * lambda
     if  _trochoidCurve == nil {
@@ -42,7 +42,7 @@ class TrochoidView: UIView {
       let width = self.bounds.size.width
       let   waveCount =   width / (radius * 4)
       maxTheta = CGFloat.pi * 2 * waveCount
-
+      
       var firstPoint: Bool = true
       _trochoidCurve = UIBezierPath()
       var steps: Int = 0
@@ -82,25 +82,32 @@ class TrochoidView: UIView {
           _trochoidCurve.addLine(to: aPoint)
         }
       }
-
+      
       //print("Loop in \(steps) steps")
     }
     return _trochoidCurve
   }
-    override func draw(_ rect: CGRect) {
-      let baseY = self.bounds.size.height / 2
-
-      //--------------------------
-      //Draw the origin line
-      let context = UIGraphicsGetCurrentContext()
-      context?.saveGState()
-      UIColor.blue.set()
-      let blue:[CGFloat] = [0, 0, 1, 1]
-      context?.setStrokeColor(blue);
-      context?.setLineWidth(1.0)
-      context?.strokeLineSegments(between: [CGPoint(x:0, y: baseY), CGPoint(x:self.bounds.size.width, y: baseY)])
-      context?.restoreGState()
-      //--------------------------
-      trochoidCurve.stroke()
-    }
+  
+  public func forceUpdate()
+  {
+    _trochoidCurve = nil
+    setNeedsDisplay()
+  }
+  
+  override func draw(_ rect: CGRect) {
+    let baseY = self.bounds.size.height / 2
+    
+    //--------------------------
+    //Draw the origin line
+    let context = UIGraphicsGetCurrentContext()
+    context?.saveGState()
+    UIColor.blue.set()
+    let blue:[CGFloat] = [0, 0, 1, 1]
+    context?.setStrokeColor(blue);
+    context?.setLineWidth(1.0)
+    context?.strokeLineSegments(between: [CGPoint(x:0, y: baseY), CGPoint(x:self.bounds.size.width, y: baseY)])
+    context?.restoreGState()
+    //--------------------------
+    trochoidCurve.stroke()
+  }
 }
