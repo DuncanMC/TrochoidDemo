@@ -121,10 +121,24 @@ class TrochoidView: UIView {
   override func draw(_ rect: CGRect) {
     lineLength = radius * lambda
 
-    baseY = max(radius, lineLength) * 1.2
+    let maxCircle = max(radius, lineLength)
+    baseY = bounds.height / 4
+    
+    if maxCircle * 8 > bounds.height {
+      baseY = maxCircle * 1.5
+      
+    }
     
     //--------------------------
     let context = UIGraphicsGetCurrentContext()
+
+    func scaleForYDistance(_ yDistance: CGFloat, radius: CGFloat) -> CGFloat {
+      var scale =  -2.25*yDistance/(radius*CGFloat.pi*2) + 1.0
+      if scale < 0 {
+        scale = 0
+      }
+      return scale
+    }
 
     func drawDotWithCenter(_ circleCenter: CGPoint,
                            radiusScale: CGFloat = 1.0,
@@ -162,13 +176,11 @@ class TrochoidView: UIView {
     }
     if drawDots && false{
       //Draw the origin line
-      //context?.saveGState()
       UIColor.blue.set()
       let blue:[CGFloat] = [0, 0, 1, 1]
       context?.setStrokeColor(blue);
       context?.setLineWidth(1.0)
       context?.strokeLineSegments(between: [CGPoint(x:0, y: baseY), CGPoint(x:self.bounds.size.width, y: baseY)])
-      //context?.restoreGState()
       
     }
     //--------------------------
@@ -190,22 +202,16 @@ class TrochoidView: UIView {
       let centerX = circleCenter.x
       var magicCenters:[CGPoint] = [circleCenter]
       
-      
       for (index,y) in stride(from: baseY, to: bounds.height, by: strideValue).enumerated() {
         circleCenter.y = y
         var radiusScale:CGFloat = 1
-        radiusScale = CGFloat(1.0/(powf(Float((y - baseY)/max(radius,lineLength))+1.0,1.05)))
-        if radiusScale < 0.16 {
-          radiusScale = 0.0
-        } else if radiusScale < 0.22
-        {
-          radiusScale /= 4
-        }
-        else if radiusScale < 0.28
-        {
-          radiusScale /= 2
-        }
-        for x in stride(from: 0, to: bounds.width, by: strideValue) {
+        
+        //Reduce the radius by 1/2 at 1/9 the wavelength, and reduce the radius to 0 by 2/9
+        radiusScale = scaleForYDistance(y-baseY, radius: radius)
+        if radiusScale < 0 {
+          radiusScale = 0
+        } 
+        for x in stride(from: -strideValue, to: bounds.width+strideValue, by: strideValue) {
           circleCenter.x = x
           if circleCenter.x == centerX && index == 3 {
             magicCenters.append(circleCenter)
@@ -220,10 +226,10 @@ class TrochoidView: UIView {
         //Draw the orange circle.
         context?.setLineWidth(2.0)
         var rect = CGRect(origin: aPoint, size: CGSize(width: 0, height: 0))
-        let radiusScale = CGFloat(1.0/(powf(Float((aPoint.y - baseY)/max(radius,lineLength))+1.0,1.05)))
+        let radiusScale = scaleForYDistance(aPoint.y-baseY, radius: radius)
 
         rect = rect.insetBy(dx: -lineLength*radiusScale, dy: -lineLength*radiusScale)
-        let orange:[CGFloat] = [1, 0.5, 0, 0.6]
+        let orange:[CGFloat] = [1, 0.5, 0, 1.0]
         context?.setStrokeColor(orange)
         context?.strokeEllipse(in: rect)
         drawDotWithCenter(aPoint,

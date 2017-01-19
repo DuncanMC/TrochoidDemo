@@ -42,7 +42,7 @@
                                     <view contentMode="scaleToFill" verticalCompressionResistancePriority="900" translatesAutoresizingMaskIntoConstraints="NO" id="fku-mJ-K04">
                                         <rect key="frame" x="5" y="82" width="127" height="45"/>
                                         <subviews>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2x-Zx-6Ee">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2x-Zx-6Ee">
                                                 <rect key="frame" x="73" y="5" width="51" height="35"/>
                                                 <connections>
                                                     <action selector="handleAnimateSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="eXX-DM-BC5"/>
