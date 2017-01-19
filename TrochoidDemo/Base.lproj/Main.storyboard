@@ -40,7 +40,7 @@
                                 <rect key="frame" x="0.0" y="540" width="375" height="127"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" verticalCompressionResistancePriority="900" translatesAutoresizingMaskIntoConstraints="NO" id="fku-mJ-K04">
-                                        <rect key="frame" x="124" y="82" width="127" height="45"/>
+                                        <rect key="frame" x="5" y="82" width="127" height="45"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2x-Zx-6Ee">
                                                 <rect key="frame" x="73" y="5" width="51" height="35"/>
@@ -106,6 +106,7 @@
                                         <connections>
                                             <action selector="handleLambdaSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="7yK-pL-lMa"/>
                                             <outletCollection property="gestureRecognizers" destination="DQJ-Ys-drm" appends="YES" id="RIY-ws-0cp"/>
+                                            <outletCollection property="gestureRecognizers" destination="OpS-GC-7A0" appends="YES" id="l3J-G1-d6k"/>
                                         </connections>
                                     </slider>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radius" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ft8-Fp-KQj">
@@ -120,10 +121,23 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show dots" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UZy-QN-0Cb">
+                                        <rect key="frame" x="235" y="94" width="81" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FRG-Hu-vV5">
+                                        <rect key="frame" x="321" y="89" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="handleDrawDotsSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="YZM-li-9cv"/>
+                                        </connections>
+                                    </switch>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="z3L-Bz-cM0" firstAttribute="top" secondItem="3O5-0a-jGA" secondAttribute="bottom" constant="10" id="14P-Ax-78a"/>
                                     <constraint firstItem="7OD-qi-rc1" firstAttribute="leading" secondItem="3O5-0a-jGA" secondAttribute="trailing" constant="5" id="3z3-E0-MSz"/>
+                                    <constraint firstItem="FRG-Hu-vV5" firstAttribute="centerY" secondItem="fku-mJ-K04" secondAttribute="centerY" id="4Ru-fO-T9A"/>
                                     <constraint firstItem="7OD-qi-rc1" firstAttribute="top" secondItem="3O5-0a-jGA" secondAttribute="top" id="5Kp-yz-g5m"/>
                                     <constraint firstAttribute="bottom" secondItem="fku-mJ-K04" secondAttribute="bottom" id="5aw-gg-rVg"/>
                                     <constraint firstItem="z3L-Bz-cM0" firstAttribute="centerY" secondItem="aqy-5t-mC5" secondAttribute="centerY" id="5sk-Lk-kVs"/>
@@ -132,13 +146,16 @@
                                     <constraint firstItem="7OD-qi-rc1" firstAttribute="bottom" secondItem="3O5-0a-jGA" secondAttribute="bottom" id="7nz-5u-v3W"/>
                                     <constraint firstItem="t5o-fq-NMd" firstAttribute="trailing" secondItem="7OD-qi-rc1" secondAttribute="trailing" id="9GF-X3-yVz"/>
                                     <constraint firstItem="t5o-fq-NMd" firstAttribute="centerY" secondItem="z3L-Bz-cM0" secondAttribute="centerY" id="IuW-YJ-fI1"/>
+                                    <constraint firstItem="FRG-Hu-vV5" firstAttribute="leading" secondItem="UZy-QN-0Cb" secondAttribute="trailing" constant="5" id="MAu-RN-0sV"/>
+                                    <constraint firstItem="fku-mJ-K04" firstAttribute="leading" secondItem="zbQ-2d-12r" secondAttribute="leading" constant="5" id="OEm-uP-p1D"/>
                                     <constraint firstItem="aqy-5t-mC5" firstAttribute="leading" secondItem="Ft8-Fp-KQj" secondAttribute="leading" id="Owi-bD-nz8"/>
                                     <constraint firstItem="aqy-5t-mC5" firstAttribute="leading" secondItem="zbQ-2d-12r" secondAttribute="leading" constant="10" id="S8t-7T-Z7T"/>
                                     <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="aqy-5t-mC5" secondAttribute="trailing" constant="5" id="TvG-EC-6B1"/>
-                                    <constraint firstItem="fku-mJ-K04" firstAttribute="centerX" secondItem="zbQ-2d-12r" secondAttribute="centerX" id="WoJ-Ln-Xl0"/>
+                                    <constraint firstAttribute="trailing" secondItem="FRG-Hu-vV5" secondAttribute="trailing" constant="5" id="XX3-Vy-Tmb"/>
                                     <constraint firstItem="fku-mJ-K04" firstAttribute="top" secondItem="z3L-Bz-cM0" secondAttribute="bottom" constant="5" id="YcN-gc-XsG"/>
                                     <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="aqy-5t-mC5" secondAttribute="trailing" constant="5" id="Ycl-y8-4ZA"/>
                                     <constraint firstItem="3O5-0a-jGA" firstAttribute="centerY" secondItem="Ft8-Fp-KQj" secondAttribute="centerY" id="ado-Dp-OV6"/>
+                                    <constraint firstItem="UZy-QN-0Cb" firstAttribute="centerY" secondItem="fku-mJ-K04" secondAttribute="centerY" id="ipp-kK-00f"/>
                                     <constraint firstItem="z3L-Bz-cM0" firstAttribute="leading" secondItem="3O5-0a-jGA" secondAttribute="leading" id="mo3-iV-FcI"/>
                                     <constraint firstItem="3O5-0a-jGA" firstAttribute="top" secondItem="zbQ-2d-12r" secondAttribute="top" constant="5" id="mvC-Xi-7vg"/>
                                     <constraint firstAttribute="trailing" secondItem="7OD-qi-rc1" secondAttribute="trailing" constant="10" id="nAR-Dg-1fQ"/>
@@ -160,17 +177,24 @@
                     <connections>
                         <outlet property="controlsView" destination="zbQ-2d-12r" id="wsv-1r-acF"/>
                         <outlet property="controlsViewConstraint" destination="8Ua-8z-uAq" id="vDC-6o-Z50"/>
+                        <outlet property="doubleTapper" destination="DQJ-Ys-drm" id="xy8-mQ-9xz"/>
                         <outlet property="lambdaField" destination="t5o-fq-NMd" id="8be-hb-7fh"/>
                         <outlet property="lambdaSlider" destination="z3L-Bz-cM0" id="Dog-GM-SbM"/>
                         <outlet property="radiusField" destination="7OD-qi-rc1" id="lAp-k4-jmE"/>
                         <outlet property="radiusSlider" destination="3O5-0a-jGA" id="Dsr-L8-Bak"/>
                         <outlet property="theTrochoidView" destination="BDE-l5-rIg" id="Y9m-Zk-SdY"/>
+                        <outlet property="tripleTapper" destination="OpS-GC-7A0" id="9ha-WZ-N1r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer numberOfTapsRequired="2" id="DQJ-Ys-drm">
+                <tapGestureRecognizer numberOfTapsRequired="2" id="DQJ-Ys-drm" userLabel="Double tap recognizer">
                     <connections>
                         <action selector="handleLambdaDoubleTap:" destination="BYZ-38-t0r" id="Suw-eY-xC0"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer numberOfTapsRequired="3" id="OpS-GC-7A0" userLabel="Triple tap recognizer">
+                    <connections>
+                        <action selector="handleLambdaTripleTap:" destination="BYZ-38-t0r" id="RoG-qE-RrH"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

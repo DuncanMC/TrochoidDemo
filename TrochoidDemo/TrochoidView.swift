@@ -12,7 +12,7 @@ class TrochoidView: UIView {
   
   @IBInspectable public var fillColor: UIColor?
   
-  var drawAxis: Bool = true  {
+  @IBInspectable var drawDots: Bool = true  {
     didSet {
       forceUpdate()
     }
@@ -24,14 +24,14 @@ class TrochoidView: UIView {
     }
   }
   
-  @IBInspectable public var radius: CGFloat = 30 {
+  @IBInspectable public var radius: CGFloat = 40 {
     didSet {
       if radius != oldValue {
         forceUpdate()
       }
     }
   }
-  @IBInspectable public var lambda: CGFloat = 0.8 {
+  @IBInspectable public var lambda: CGFloat = 0.5 {
     didSet {
       if lambda != oldValue {
         forceUpdate()
@@ -45,6 +45,8 @@ class TrochoidView: UIView {
     }
   }
  
+  private var baseY: CGFloat = 0
+  
   private var lineLength: CGFloat = 0
   
   private var  maxTheta:CGFloat = 0
@@ -62,8 +64,6 @@ class TrochoidView: UIView {
       _trochoidCurve = UIBezierPath()
       var steps: Int = 0
       
-      let baseY = self.bounds.size.height / 2
-      //let pointsPer2Pi = width / (CGFloat.pi * 2)
       for theta in stride(from: 0,
                           to: maxTheta,
                           by: maxTheta / (width/4) ) {
@@ -119,11 +119,48 @@ class TrochoidView: UIView {
   }
   
   override func draw(_ rect: CGRect) {
-    let baseY = self.bounds.size.height / 2
+    lineLength = radius * lambda
+
+    baseY = max(radius, lineLength) * 1.2
     
     //--------------------------
     let context = UIGraphicsGetCurrentContext()
-    if drawAxis && false{
+
+    func drawDotWithCenter(_ circleCenter: CGPoint,
+                           radiusScale: CGFloat = 1.0,
+                           specialDot: Bool) {
+      
+      var dotCenter = circleCenter
+      var angle_offset: CGFloat
+      angle_offset = CGFloat(fmodf(Float(Float(circleCenter.x/radius)), Float.pi * 2))
+
+      dotCenter.x += cos(CGFloat.pi * 2 - rotation - angle_offset - CGFloat.pi / 3.06*lambda) * lineLength * radiusScale
+      dotCenter.y += sin(CGFloat.pi * 2 - rotation - angle_offset - CGFloat.pi / 3.06*lambda) * lineLength * radiusScale
+      var rect = CGRect(origin: dotCenter, size: CGSize(width: 0, height: 0))
+      let darkBlue:[CGFloat] = [53/255.0, 87/255.0, 147/255.0, 1]
+      if specialDot {
+        rect = rect.insetBy(dx: -3, dy: -3)
+
+        let yellow:[CGFloat] = [1, 1, 0, 1]
+        context?.setFillColor(yellow);
+        context?.setStrokeColor(darkBlue);
+
+        context?.setLineWidth(1.0)
+
+        context?.fillEllipse(in: rect)
+        context?.strokeEllipse(in: rect)
+        
+      }
+      else {
+        rect = rect.insetBy(dx: -3, dy: -3)
+
+        let darkBlue:[CGFloat] = [53/255.0, 87/255.0, 147/255.0, 1]
+        context?.setFillColor(darkBlue);
+        context?.fillEllipse(in: rect)
+      }
+
+    }
+    if drawDots && false{
       //Draw the origin line
       //context?.saveGState()
       UIColor.blue.set()
@@ -140,24 +177,60 @@ class TrochoidView: UIView {
       fillColor.set()
       trochoidCurve.fill()
     }
-    if drawAxis {
-      context?.setLineWidth(2.0)
+    if drawDots {
 
-      var center = CGPoint(x: 0, y: baseY)
-      var rect = CGRect(origin: center, size: CGSize(width: 0, height: 0))
-      rect = rect.insetBy(dx: -lineLength, dy: -lineLength)
-      let orange:[CGFloat] = [1, 0.5, 0, 1]
-      context?.setStrokeColor(orange);
-      context?.strokeEllipse(in: rect)
-      center.x += cos(CGFloat.pi * 2 - rotation - CGFloat.pi / 3.06*lambda) * lineLength
-      center.y += sin(CGFloat.pi * 2 - rotation - CGFloat.pi / 3.06*lambda) * lineLength
-      rect = CGRect(origin: center, size: CGSize(width: 0, height: 0))
-      rect = rect.insetBy(dx: -3, dy: -3)
-      let darkBlue:[CGFloat] = [53/255.0, 87/255.0, 147/255.0, 1]
-      context?.setFillColor(darkBlue);
-      context?.fillEllipse(in: rect)
-
+      var circleCenter = CGPoint(x: bounds.width / 2, y: baseY)
       
+      
+      let strideValue:CGFloat = 20
+      let steps = bounds.width/strideValue
+
+      circleCenter.x = strideValue * round(steps / 2)
+      
+      let centerX = circleCenter.x
+      var magicCenters:[CGPoint] = [circleCenter]
+      
+      
+      for (index,y) in stride(from: baseY, to: bounds.height, by: strideValue).enumerated() {
+        circleCenter.y = y
+        var radiusScale:CGFloat = 1
+        radiusScale = CGFloat(1.0/(powf(Float((y - baseY)/max(radius,lineLength))+1.0,1.05)))
+        if radiusScale < 0.16 {
+          radiusScale = 0.0
+        } else if radiusScale < 0.22
+        {
+          radiusScale /= 4
+        }
+        else if radiusScale < 0.28
+        {
+          radiusScale /= 2
+        }
+        for x in stride(from: 0, to: bounds.width, by: strideValue) {
+          circleCenter.x = x
+          if circleCenter.x == centerX && index == 3 {
+            magicCenters.append(circleCenter)
+          } else  {
+            drawDotWithCenter(circleCenter,
+                              radiusScale: radiusScale,
+                              specialDot: false)
+          }
+        }
+      }
+      for aPoint in magicCenters {
+        //Draw the orange circle.
+        context?.setLineWidth(2.0)
+        var rect = CGRect(origin: aPoint, size: CGSize(width: 0, height: 0))
+        let radiusScale = CGFloat(1.0/(powf(Float((aPoint.y - baseY)/max(radius,lineLength))+1.0,1.05)))
+
+        rect = rect.insetBy(dx: -lineLength*radiusScale, dy: -lineLength*radiusScale)
+        let orange:[CGFloat] = [1, 0.5, 0, 0.6]
+        context?.setStrokeColor(orange)
+        context?.strokeEllipse(in: rect)
+        drawDotWithCenter(aPoint,
+                          radiusScale: radiusScale,
+                          specialDot: true)
+
+      }
     }
   }
 }

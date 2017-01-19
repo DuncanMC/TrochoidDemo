@@ -13,6 +13,8 @@ class ViewController: UIViewController {
   
   //MARK: - IBOutlets
   
+  @IBOutlet var doubleTapper: UITapGestureRecognizer!
+  @IBOutlet var tripleTapper: UITapGestureRecognizer!
   @IBOutlet weak var controlsView: UIView!
   @IBOutlet weak var controlsViewConstraint: NSLayoutConstraint!
   @IBOutlet weak var radiusSlider: UISlider!
@@ -117,6 +119,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupKeyboardNoticeHandlers()
+    doubleTapper.require(toFail: tripleTapper)
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -134,6 +137,9 @@ class ViewController: UIViewController {
   @IBAction func handleAnimateSwitch(_ sender: UISwitch) {
     startRotationTimer(sender.isOn)
   }
+  @IBAction func handleDrawDotsSwitch(_ sender: UISwitch) {
+    theTrochoidView.drawDots = sender.isOn
+  }
 
   @IBAction func handleRadiusSlider(_ sender: UISlider) {
     radiusValue = CGFloat(radiusSlider.value)
@@ -145,6 +151,10 @@ class ViewController: UIViewController {
 
   @IBAction func handleLambdaDoubleTap(_ sender: UITapGestureRecognizer) {
     lambdaValue = 1.0
+  }
+  
+  @IBAction func handleLambdaTripleTap(_ sender: UITapGestureRecognizer) {
+    lambdaValue = 0.5
   }
   
   override func viewWillTransition(to size: CGSize,
