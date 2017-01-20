@@ -25,6 +25,7 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var theTrochoidView: TrochoidView!
   
+  
   //MARK: - Instance vars
 
   var showKeyboardHandler: Any?
@@ -49,8 +50,7 @@ class ViewController: UIViewController {
       theTrochoidView.lambda = lambdaValue
     }
   }
-  
-  private var rotationStartTime: TimeInterval = 0
+  private var timerInterval: TimeInterval = 0
   private var rotation: CGFloat = 0
 
   private var timer: Timer?
@@ -63,12 +63,13 @@ class ViewController: UIViewController {
       //theTrochoidView.rotation = 0
     }
     else {
-      rotationStartTime = Date().timeIntervalSinceReferenceDate
+      timerInterval = Date().timeIntervalSinceReferenceDate
       timer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) {
         timer in
-        let elapsed = Float(Date().timeIntervalSinceReferenceDate - self.rotationStartTime)
-        let  rotation = Float(Float.pi * 2.0 - fmodf(elapsed * Float.pi, Float.pi * 2.0))
-        self.theTrochoidView.rotation = CGFloat(rotation)
+        let elapsed = Float(Date().timeIntervalSinceReferenceDate - self.timerInterval)
+        self.rotation += CGFloat(Float.pi * 2.0 - fmodf(elapsed * Float.pi, Float.pi * 2.0))
+        self.theTrochoidView.rotation = CGFloat(self.rotation)
+        self.timerInterval = Date().timeIntervalSinceReferenceDate
       }
     }
   }
