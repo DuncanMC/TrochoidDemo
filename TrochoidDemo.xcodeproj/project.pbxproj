@@ -15,6 +15,7 @@
 		AE5599A71E2E821F001ACB43 /* TrochoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5599A61E2E821F001ACB43 /* TrochoidView.swift */; };
 		AE5599A91E2E840B001ACB43 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5599A81E2E840B001ACB43 /* UIViewExtensions.swift */; };
 		AE5599AB1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5599AA1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift */; };
+		AECEE2841E3276AF004D6B1B /* OneFingerGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECEE2831E3276AF004D6B1B /* OneFingerGestureRecognizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		AE5599A61E2E821F001ACB43 /* TrochoidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrochoidView.swift; sourceTree = "<group>"; };
 		AE5599A81E2E840B001ACB43 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		AE5599AA1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmoothCGPointsArray.swift; sourceTree = "<group>"; };
+		AECEE2831E3276AF004D6B1B /* OneFingerGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneFingerGestureRecognizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				AE5599AA1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift */,
 				AE5599A81E2E840B001ACB43 /* UIViewExtensions.swift */,
+				AECEE2831E3276AF004D6B1B /* OneFingerGestureRecognizer.swift */,
 				AE5599941E2E8201001ACB43 /* AppDelegate.swift */,
 				AE5599961E2E8201001ACB43 /* ViewController.swift */,
 				AE5599981E2E8201001ACB43 /* Main.storyboard */,
@@ -148,6 +151,7 @@
 			files = (
 				AE5599971E2E8201001ACB43 /* ViewController.swift in Sources */,
 				AE5599951E2E8201001ACB43 /* AppDelegate.swift in Sources */,
+				AECEE2841E3276AF004D6B1B /* OneFingerGestureRecognizer.swift in Sources */,
 				AE5599A91E2E840B001ACB43 /* UIViewExtensions.swift in Sources */,
 				AE5599AB1E2EAEA6001ACB43 /* SmoothCGPointsArray.swift in Sources */,
 				AE5599A71E2E821F001ACB43 /* TrochoidView.swift in Sources */,

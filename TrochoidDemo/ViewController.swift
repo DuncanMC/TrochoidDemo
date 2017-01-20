@@ -13,6 +13,10 @@ class ViewController: UIViewController {
   
   //MARK: - IBOutlets
   
+  @IBOutlet var knobTapper: UITapGestureRecognizer!
+  @IBOutlet weak var animateSwitch: UISwitch!
+  @IBOutlet weak var rotationKnobView: UIImageView!
+  @IBOutlet var rotationGestureRecognizer: OneFingerGestureRecognizer!
   @IBOutlet var doubleTapper: UITapGestureRecognizer!
   @IBOutlet var tripleTapper: UITapGestureRecognizer!
   @IBOutlet weak var controlsView: UIView!
@@ -51,13 +55,20 @@ class ViewController: UIViewController {
     }
   }
   private var timerInterval: TimeInterval = 0
-  private var rotation: CGFloat = 0
+  private var rotation: CGFloat = 0 {
+    didSet {
+      theTrochoidView.rotation = rotation
+      rotationGestureRecognizer.rotation = rotation
+      rotationKnobView.transform = CGAffineTransform(rotationAngle:0-rotation)
+    }
+  }
 
   private var timer: Timer?
 
   //MARK: - custom instance methods
   
   func startRotationTimer(_ start: Bool) {
+    animateSwitch.setOn(start, animated: true)
     if !start {
       timer?.invalidate()
       //theTrochoidView.rotation = 0
@@ -68,7 +79,7 @@ class ViewController: UIViewController {
         timer in
         let elapsed = Float(Date().timeIntervalSinceReferenceDate - self.timerInterval)
         self.rotation += CGFloat(Float.pi * 2.0 - fmodf(elapsed * Float.pi, Float.pi * 2.0))
-        self.theTrochoidView.rotation = CGFloat(self.rotation)
+        //self.theTrochoidView.rotation = CGFloat(self.rotation)
         self.timerInterval = Date().timeIntervalSinceReferenceDate
       }
     }
@@ -121,13 +132,16 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     setupKeyboardNoticeHandlers()
     doubleTapper.require(toFail: tripleTapper)
+//    rotationGestureRecognizer = OneFingerGestureRecognizer(target: self,
+//                                                           action: #selector(ViewController.handleRotationGesture(_:)))
+//    rotationKnobView.addGestureRecognizer(rotationGestureRecognizer)
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     radiusValue = theTrochoidView.radius
     lambdaValue = theTrochoidView.lambda
-    startRotationTimer(true)
+    startRotationTimer(false)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -135,6 +149,15 @@ class ViewController: UIViewController {
   }
   //MARK: - IBActions
   
+  @IBAction func handleKnobTap(_ sender: UITapGestureRecognizer) {
+    startRotationTimer(false)
+    rotation = 0
+  }
+  
+  @IBAction func handleRotationGesture(_ sender: OneFingerGestureRecognizer) {
+    startRotationTimer(false)
+    rotation = sender.rotation
+  }
   @IBAction func handleAnimateSwitch(_ sender: UISwitch) {
     startRotationTimer(sender.isOn)
   }
@@ -211,4 +234,11 @@ extension ViewController: UITextFieldDelegate {
   }
 
 }
+
+//extension ViewController: UIGestureRecognizerDelegate {
+//  
+//  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//    return true
+//  }
+//}
 
