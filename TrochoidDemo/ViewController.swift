@@ -27,11 +27,18 @@ class ViewController: UIViewController {
   @IBOutlet weak var lambdaSlider: UISlider!
   @IBOutlet weak var lambdaField: UITextField!
   
+  @IBOutlet weak var speedSlider: UISlider!
+  
   @IBOutlet weak var theTrochoidView: TrochoidView!
   
   
   //MARK: - Instance vars
 
+  var rotationSpeed: Float = 0.5 {
+    didSet {
+      speedSlider.value = rotationSpeed
+    }
+  }
   var showKeyboardHandler: Any?
   var hideKeyboardHandler: Any?
   
@@ -78,8 +85,8 @@ class ViewController: UIViewController {
       timer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) {
         timer in
         let elapsed = Float(Date().timeIntervalSinceReferenceDate - self.timerInterval)
-        self.rotation += CGFloat(Float.pi * 2.0 - fmodf(elapsed * Float.pi, Float.pi * 2.0))
-        //self.theTrochoidView.rotation = CGFloat(self.rotation)
+        self.rotation += CGFloat(Float.pi * 2.0 -
+          fmodf(self.rotationSpeed * elapsed * Float.pi * 2, Float.pi * 2.0))
         self.timerInterval = Date().timeIntervalSinceReferenceDate
       }
     }
@@ -143,6 +150,7 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    rotationSpeed = 0.5
     setupKeyboardNoticeHandlers()
     doubleTapper.require(toFail: tripleTapper)
 //    rotationGestureRecognizer = OneFingerGestureRecognizer(target: self,
@@ -186,6 +194,10 @@ class ViewController: UIViewController {
     lambdaValue = CGFloat(lambdaSlider.value)
   }
 
+  @IBAction func handleSpeedSlider(_ sender: UISlider) {
+    rotationSpeed = speedSlider.value
+  }
+  
   @IBAction func handleLambdaDoubleTap(_ sender: UITapGestureRecognizer) {
     lambdaValue = 1.0
   }
