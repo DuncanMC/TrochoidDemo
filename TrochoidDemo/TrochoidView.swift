@@ -45,9 +45,10 @@ class TrochoidView: UIView {
     }
   }
  
+  private var lineLength: CGFloat = 0
+
   private var baseY: CGFloat = 0
   
-  private var lineLength: CGFloat = 0
   
   private var  maxTheta:CGFloat = 0
   
@@ -125,7 +126,7 @@ class TrochoidView: UIView {
     baseY = bounds.height / 4
     
     if maxCircle * 8 > bounds.height {
-      baseY = maxCircle * 1.5
+      baseY = maxCircle * 1.2
       
     }
     
@@ -202,7 +203,15 @@ class TrochoidView: UIView {
       let centerX = circleCenter.x
       var magicCenters:[CGPoint] = [circleCenter]
       
-      for (index,y) in stride(from: baseY, to: bounds.height, by: strideValue).enumerated() {
+      let yMargin: CGFloat = {
+        if bounds.height > radius * 4 {
+          return 0
+        }
+        else {
+          return radius * 2
+        }
+      }()
+      for (index,y) in stride(from: baseY, to: bounds.height+yMargin, by: strideValue).enumerated() {
         circleCenter.y = y
         var radiusScale:CGFloat = 1
         
@@ -210,8 +219,9 @@ class TrochoidView: UIView {
         radiusScale = scaleForYDistance(y-baseY, radius: radius)
         if radiusScale < 0 {
           radiusScale = 0
-        } 
-        for x in stride(from: -strideValue, to: bounds.width+strideValue, by: strideValue) {
+        }
+        let xMargin: CGFloat = CGFloat(Int(radius) / Int(strideValue)) * strideValue
+        for x in stride(from: -xMargin, to: bounds.width+xMargin, by: strideValue) {
           circleCenter.x = x
           if circleCenter.x == centerX && index == 3 {
             magicCenters.append(circleCenter)

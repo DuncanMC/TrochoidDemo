@@ -128,6 +128,19 @@ class ViewController: UIViewController {
 
   //MARK: - overridden UIViewController methods
 
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    if view.bounds.height > 375 {
+      radiusSlider.maximumValue = 100
+    }
+    else {
+      radiusSlider.maximumValue = 50
+      if radiusValue > CGFloat(radiusSlider.maximumValue) {
+        radiusValue = CGFloat(radiusSlider.maximumValue)
+      }
+    }
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupKeyboardNoticeHandlers()
@@ -141,7 +154,7 @@ class ViewController: UIViewController {
     super.viewWillAppear(animated)
     radiusValue = theTrochoidView.radius
     lambdaValue = theTrochoidView.lambda
-    startRotationTimer(false)
+    startRotationTimer(true)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -202,12 +215,6 @@ extension ViewController: UITextFieldDelegate {
   }
 
   func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-    return true
-  }
-
-  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    textField.resignFirstResponder()
-    
     switch textField {
     case radiusField:
       if let string = radiusField.text,
@@ -230,6 +237,12 @@ extension ViewController: UITextFieldDelegate {
     default:
       break
     }
+    return true
+  }
+
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    
     return true
   }
 
