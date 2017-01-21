@@ -23,7 +23,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var controlsViewConstraint: NSLayoutConstraint!
   @IBOutlet weak var radiusSlider: UISlider!
   @IBOutlet weak var radiusField: UITextField!
-  
+  @IBOutlet weak var speedField: UITextField!
   @IBOutlet weak var lambdaSlider: UISlider!
   @IBOutlet weak var lambdaField: UITextField!
   
@@ -37,6 +37,7 @@ class ViewController: UIViewController {
   var rotationSpeed: Float = 0.5 {
     didSet {
       speedSlider.value = rotationSpeed
+      speedField.text = String(format: "%.2f", rotationSpeed)
     }
   }
   var showKeyboardHandler: Any?
@@ -48,7 +49,7 @@ class ViewController: UIViewController {
   var radiusValue: CGFloat = 0 {
     didSet {
       radiusSlider.value = Float(radiusValue)
-      radiusField.text = String(format: "%.3f", radiusValue)
+      radiusField.text = String(format: "%.1f", radiusValue)
       theTrochoidView.radius = radiusValue
     }
   }
@@ -57,7 +58,7 @@ class ViewController: UIViewController {
     {
     didSet {
       lambdaSlider.value = Float(lambdaValue)
-      lambdaField.text = String(format: "%.3f", lambdaValue)
+      lambdaField.text = String(format: "%.2f", lambdaValue)
       theTrochoidView.lambda = lambdaValue
     }
   }
@@ -174,6 +175,9 @@ class ViewController: UIViewController {
     startRotationTimer(false)
     rotation = 0
   }
+  @IBAction func handleSpeedTap(_ sender: UITapGestureRecognizer) {
+    rotationSpeed = 0.5
+  }
   
   @IBAction func handleRotationGesture(_ sender: OneFingerGestureRecognizer) {
     startRotationTimer(false)
@@ -199,11 +203,11 @@ class ViewController: UIViewController {
   }
   
   @IBAction func handleLambdaDoubleTap(_ sender: UITapGestureRecognizer) {
-    lambdaValue = 1.0
+    lambdaValue = 0.5
   }
   
   @IBAction func handleLambdaTripleTap(_ sender: UITapGestureRecognizer) {
-    lambdaValue = 0.5
+    lambdaValue = 1.0
   }
   
   override func viewWillTransition(to size: CGSize,
@@ -235,7 +239,7 @@ extension ViewController: UITextFieldDelegate {
         radiusValue = CGFloat(value)
       }
       else {
-        radiusField.text = String(format: "%.3f", radiusValue)
+        radiusField.text = String(format: "%.1f", radiusValue)
       }
     case lambdaField:
       if let string = lambdaField.text,
@@ -244,8 +248,18 @@ extension ViewController: UITextFieldDelegate {
         lambdaValue = CGFloat(value)
       }
       else {
-        lambdaField.text = String(format: "%.3f", lambdaValue)
+        lambdaField.text = String(format: "%.2f", lambdaValue)
       }
+    case speedField:
+      if let string = speedField.text,
+        let value = Float(string),
+        value >= lambdaSlider.minimumValue && value <= lambdaSlider.maximumValue {
+        rotationSpeed = value
+      }
+      else {
+        speedField.text = String(format: "%.2f", rotationSpeed)
+      }
+
     default:
       break
     }
