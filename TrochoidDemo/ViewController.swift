@@ -75,17 +75,17 @@ class ViewController: UIViewController {
 
   //MARK: - custom instance methods
   
-  //Test of using guard to create an unwrapped version of a var, like if let
-  func guardTest(_ viewController: UIViewController?) -> UIViewController? {
-    // Check if the current viewController exists
-    print(String(describing: viewController))
-    guard let viewController = viewController else {
-      return nil
-    }
-    print(String(describing: viewController))
+    //Test of using guard to create an unwrapped version of a var, like if let
+    func guardTest(_ viewController: UIViewController?) -> UIViewController? {
+      // Check if the current viewController exists
+      print("viewController = " + String(describing: viewController))
+      guard let viewController = viewController else {
+        return nil
+      }
+      print("viewController = " + String(describing: viewController))
 
-    return viewController
-  }
+      return viewController
+    }
   
 
   func startRotationTimer(_ start: Bool) {
