@@ -75,17 +75,19 @@ class ViewController: UIViewController {
 
   //MARK: - custom instance methods
   
-    //Test of using guard to create an unwrapped version of a var, like if let
-    func guardTest(_ viewController: UIViewController?) -> UIViewController? {
-      // Check if the current viewController exists
-      print("viewController = " + String(describing: viewController))
-      guard let viewController = viewController else {
-        return nil
-      }
-      print("viewController = " + String(describing: viewController))
-
-      return viewController
+  let a = 3
+  
+  
+  //Test of using guard to create an unwrapped version of a var, like if let
+  func guardTest(_ viewController: UIViewController?) {
+    // Check if the current viewController exists
+    print("viewController = " + String(describing: viewController))
+    
+    guard let viewController = viewController else {
+      return
     }
+    print("viewController = " + String(describing: viewController))
+  }
   
 
   func startRotationTimer(_ start: Bool) {
@@ -177,7 +179,7 @@ class ViewController: UIViewController {
     radiusValue = theTrochoidView.radius
     lambdaValue = theTrochoidView.lambda
     startRotationTimer(true)
-    let _ = guardTest(self)
+    guardTest(self)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
